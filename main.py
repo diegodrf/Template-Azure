@@ -1,3 +1,14 @@
+"""
+The syntax should be:
+python3 ./main.py ACCOUNT RESOURCEGROUP TEMPLATE HOSTNAME
+
+For SQLServer:
+The default provider is "Microsoft.Sql/servers/HOSTANAME/databases/DATABASE"
+
+You have to create a host on Zabbix named with DATABASE, and create macro {$SERVER} with the HOSTNAME.
+
+"""
+
 from Azure.Connect import Azure
 from Zabbix.Sender import Zabbix
 import os
