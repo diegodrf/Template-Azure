@@ -5,7 +5,7 @@ python3 ./main.py ACCOUNT RESOURCEGROUP TEMPLATE HOSTNAME
 For SQLServer:
 The default provider is "Microsoft.Sql/servers/HOSTANAME/databases/DATABASE"
 
-You have to create a host on Zabbix named with DATABASE, and create macro {$SERVER} with the HOSTNAME.
+You have to create a host on Zabbix named with DATABASE, and create macro {$SERVER} with the HOSTNAME/databases/.
 
 """
 
@@ -17,8 +17,7 @@ from sys import argv
 import importlib
 
 if __name__ == '__main__':
-
-    file = os.path.join(os.path.abspath(os.path.curdir), 'Configurations/configurations.cfg')
+    file = os.path.join(os.path.dirname(__file__),'Configurations/configurations.cfg')
     config = ConfigParser()
     config.read(file)
 
@@ -39,7 +38,7 @@ if __name__ == '__main__':
     metric = Azure(tenant_id, client_id, client_secret, subscription_id, resourceGroups, providers)
     metric.genetareToken()
 
-    zabbixServer = os.path.join(os.path.abspath(os.path.curdir), 'Configurations/ZabbixServer.cfg')
+    zabbixServer = os.path.join(os.path.dirname(__file__),'Configurations/ZabbixServer.cfg')
     config.read(zabbixServer)
 
     serverip = config['Zabbix']['Server']
@@ -47,4 +46,8 @@ if __name__ == '__main__':
     zabbix = Zabbix(serverip)
 
     for item in module.Metrics.items:
-        zabbix.sender(argv[4], metric.getmetric(item[0], item[1]), item[1])
+        if argv[3] == 'SQL':
+            host = str(argv[4]).split('/')[2]
+            zabbix.sender( host, metric.getmetric(item[0], item[1]), item[1])
+        else:
+            zabbix.sender(argv[4], metric.getmetric(item[0], item[1]), item[1])

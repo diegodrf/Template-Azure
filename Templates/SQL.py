@@ -1,14 +1,12 @@
 class Metrics:
     #Provider
-    providers = 'Microsoft.Sql/servers/'
+    providers = 'Microsoft.Sql/servers'
 
     #Metrics
     blocked_by_firewall = ['blocked_by_firewall', 'Total']  # Count - Blocked by Firewall
     connection_failed = ['connection_failed', 'Total']  # Count - Failed Connections
     connection_successful = ['connection_successful', 'Total']  # Count - Successful Connections
-    cpu_limit = ['cpu_limit', 'Average']  # Count - CPU limit
     cpu_percent = ['cpu_percent', 'Average']  # Percent - CPU percentage
-    cpu_used = ['cpu_used', 'Average']  # Count - CPU used
     deadlock = ['deadlock', 'Total']  # Count - Deadlock
     dtu_consumption_percent = ['dtu_consumption_percent', 'Average']  # Percent - DTU percentage
     dtu_limit = ['dtu_limit', 'Average']  # Count - DTU Limit
@@ -24,8 +22,7 @@ class Metrics:
     items = [blocked_by_firewall,
              connection_failed,
              connection_successful,
-             cpu_limit, cpu_percent,
-             cpu_used, deadlock,
+             cpu_percent, deadlock,
              dtu_consumption_percent,
              dtu_limit, dtu_used,
              log_write_percent,
